@@ -14,6 +14,17 @@ let photos = [
   {name: "Cute Dog", image: "https://static.pexels.com/photos/406014/pexels-photo-406014.jpeg"}
 ]
 
+// Line config
+const defaultAccessToken = 'pY08L55FaKvaHFayaOdPDySWBMQgJ0m6TvhjWa/axFQksupY7VvxIyuKA4EZ5geFFq6IzwmGD/zJSGtQulaLwsv3z79Ek7gs0MXgbuPbEH62+qkQcjdhFyMm/GJR/pwB4RuXWvb0klGJbfSBxM2iAgdB04t89/1O/w1cDnyilFU=';
+const defaultSecret = 'c71eb556eadc94d7e8bdeee14d9f08db';
+
+// create LINE SDK config from env variables
+const config = {
+  channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN || defaultAccessToken,
+  channelSecret: process.env.CHANNEL_SECRET || defaultSecret,
+};
+
+
 // Setting view engines
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
