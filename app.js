@@ -44,9 +44,11 @@ app.get("/campgrounds/new", function(req, res){
 });
 
 // Defining the port number and IP address
-app.listen(process.env.PORT || PORT, IP, function(){
+app.listen(PORT, function(){
   console.log("Server has started!")
 });
+
+// .listen(process.env.PORT || 5000)
 
 // Have a function of each AI depending on the input.
 // Move to another file and that file is referred to as the master logic file.
