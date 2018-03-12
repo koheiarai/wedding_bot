@@ -44,7 +44,7 @@ app.get("/campgrounds/new", function(req, res){
 });
 
 // Defining the port number and IP address
-app.listen(PORT, IP, function(){
+app.listen(process.env.PORT || PORT, IP, function(){
   console.log("Server has started!")
 });
 
