@@ -6,7 +6,7 @@ const PORT = 3000;
 const IP = "localhost";
 
 // Move to config file
-let campgrounds = [
+let photos = [
   {name: "Pomsky", image: "http://www.pomsky.org/wp-content/uploads/2013/03/f14629e88cfe11e28ef622000a1fa434_7.jpg"},
   {name: "Cute Dog", image: "https://static.pexels.com/photos/356378/pexels-photo-356378.jpeg"},
   {name: "Cute Dog", image: "https://static.pexels.com/photos/39317/chihuahua-dog-puppy-cute-39317.jpeg"},
@@ -17,29 +17,29 @@ let campgrounds = [
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 
-// Welcome campgroundsMessage
+// Welcome photosMessage
 app.get("/", function(req, res){
   res.render("landing");
 });
 
 // Get the result of compounds
-app.get("/campgrounds", function(req, res){
-  res.render("campgrounds", {campgrounds: campgrounds});
+app.get("/photos", function(req, res){
+  res.render("photos", {photos: photos});
 });
 
 // Getting the score of an image
-app.post("/campgrounds", function(req, res){
+app.post("/photos", function(req, res){
   const name = req.body.name;
   const image = req.body.image;
     // const score = Math.floor(Math.random() * 100) + " points";
   const score = _delegateAi(req);
-  const newCampground = {name: name, image: image, score: score};
-  campgrounds.push(newCampground);
-  res.redirect("/campgrounds");
+  const newPhoto = {name: name, image: image, score: score};
+  photos.push(newPhoto);
+  res.redirect("/photos");
 });
 
 // Page to create a new page
-app.get("/campgrounds/new", function(req, res){
+app.get("/photos/new", function(req, res){
   res.render("new.ejs");
 });
 

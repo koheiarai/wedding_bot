@@ -6,22 +6,22 @@
         <h1><i class="fa fa-camera-retro" aria-hidden="true"></i> Welcome to Photo Contest</h1>
         <p>View our hand-picked photos from all over the world</p>
         <p>
-            <a class="btn btn-primary btn-large" href="/campgrounds/new">Add New Photo</a>
+            <a class="btn btn-primary btn-large" href="/photos/new">Add New Photo</a>
         </p>
     </div>
   </header>
 
-  <!-- <h1>This is the campground page</h1> -->
+  <!-- <h1>This is the photo page</h1> -->
   <div class="row" style="display:flex; flex-wrap: wrap;">
-      <% campgrounds.forEach(function(campground){ %>
+      <% photos.forEach(function(photo){ %>
         <!-- <div> -->
         <div class="col-md-3 col-sm-6" style="padding-left: 0px;  padding-right: 0px;">
             <div class="thumbnail">
-                <img src="<%= campground.image %>" style="max-width:250px">
+                <img src="<%= photo.image %>" style="max-width:250px">
             </div>
             <div class="caption">
-                <h3 style="text-align: center"><%= campground.score %> </h3>
-                <h4 style="text-align: center"><%= campground.name %> </h4>
+                <h3 style="text-align: center"><%= photo.score %> </h3>
+                <h4 style="text-align: center"><%= photo.name %> </h4>
               </div>
           </div>
         <!-- </div> -->
