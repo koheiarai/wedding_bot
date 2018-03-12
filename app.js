@@ -106,13 +106,14 @@ app.post('/webhook', line.middleware(config), (req, res) => {
 
 // event handler
 function handleEvent(event) {
-  if (event.type !== 'message' || event.message.type !== 'text' || event.message.type !== 'image') {
+  // if (event.type !== 'message' || event.message.type !== 'text' || event.message.type !== 'image') {
+  if (event.type !== 'message' || event.message.type !== 'text') {
     // ignore non-text-message event
     return Promise.resolve(null);
   }
   
   // create a echoing text message
-  let echo = { type: 'text', text: `${event.message.text}ではなくて画像を送ってください。By新婦` };
+  const echo = { type: 'text', text: `${event.message.text}ではなくて画像を送ってください。By新婦` };
   // if (event.message.type === 'image') {
   //   echo = { type: 'text', text: "Thank you for your image!" };
   // }
