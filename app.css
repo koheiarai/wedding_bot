@@ -18,3 +18,20 @@ a {
 .navbar-inverse .navbar-nav>li>a {
   color: white;
 }
+
+body, html {
+    height: 100%;
+}
+
+.bg { 
+    /* The image used */
+    background-image: url("https://lh6.googleusercontent.com/BVb2GLmw8L9h-5A4z2tFFyr5hQ7RzoK0d9I2uyEKTQ545llBLZ15BFnmbaKoGIigE3_Vw4hTDg=w740");
+
+    /* Full height */
+    height: 100%; 
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
