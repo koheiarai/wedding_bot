@@ -112,7 +112,7 @@ function handleEvent(event) {
   }
 
   // create a echoing text message
-  const echo = { type: 'text', text: "`{event.message.text}`ではなくて画像を送ってください。By新婦" };
+  const echo = { type: 'text', text: `${event.message.text}ではなくて画像を送ってください。By新婦` };
   
 
   // use reply API
