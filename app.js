@@ -4,6 +4,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const PORT = 3000;
 const IP = "localhost";
+const line = require('@line/bot-sdk');
 
 // Move to config file
 let photos = [
@@ -79,3 +80,35 @@ const _delegateAi = function(req) {
   }
   return res
 }
+
+// create LINE SDK client
+// ToDo: move below to another file later
+const client = new line.Client(config);
+
+// register a webhook handler with middleware
+// about the middleware, please refer to doc
+app.post('/webhook', line.middleware(config), (req, res) => {
+  Promise
+    .all(req.body.events.map(handleEvent))
+    .then((result) => res.json(result));
+});
+
+// event handler
+function handleEvent(event) {
+  if (event.type !== 'message' || event.message.type !== 'text') {
+    // ignore non-text-message event
+    return Promise.resolve(null);
+  }
+
+  // create a echoing text message
+  const echo = { type: 'text', text: event.message.text };
+
+  // use reply API
+  return client.replyMessage(event.replyToken, echo);
+}
+
+// listen on port
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`listening on ${port}`);
+});
