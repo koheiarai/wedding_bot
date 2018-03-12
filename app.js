@@ -107,7 +107,7 @@ app.post('/webhook', line.middleware(config), (req, res) => {
 // event handler
 function handleEvent(event) {
   // if (event.type !== 'message' || event.message.type !== 'text' || event.message.type !== 'image') {
-  if (event.type !== 'message' || event.message.type !== 'text') {
+  if (event.type !== 'message' || event.message.type !== 'text' || event.message.type !== 'image') {
     // ignore non-text-message event
     return Promise.resolve(null);
   }
@@ -118,7 +118,6 @@ function handleEvent(event) {
   //   echo = { type: 'text', text: "Thank you for your image!" };
   // }
   
-
   // use reply API
   return client.replyMessage(event.replyToken, echo);
 }
