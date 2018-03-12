@@ -113,10 +113,10 @@ function handleEvent(event) {
   }
   
   // create a echoing text message
-  const echo = { type: 'text', text: `${event.message.text}ではなくて画像を送ってください。By新婦` };
-  // if (event.message.type === 'image') {
-  //   echo = { type: 'text', text: "Thank you for your image!" };
-  // }
+  let echo = { type: 'text', text: `${event.message.text}ではなくて画像を送ってください。By新婦` };
+  if (event.message.type === 'image') {
+    echo = { type: 'text', text: "Thank you for your image!" };
+  }
   
   // use reply API
   return client.replyMessage(event.replyToken, echo);
