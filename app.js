@@ -15,6 +15,7 @@ let photos = [
 ]
 
 // Line config
+// ToDo: Move to 
 const defaultAccessToken = 'pY08L55FaKvaHFayaOdPDySWBMQgJ0m6TvhjWa/axFQksupY7VvxIyuKA4EZ5geFFq6IzwmGD/zJSGtQulaLwsv3z79Ek7gs0MXgbuPbEH62+qkQcjdhFyMm/GJR/pwB4RuXWvb0klGJbfSBxM2iAgdB04t89/1O/w1cDnyilFU=';
 const defaultSecret = 'c71eb556eadc94d7e8bdeee14d9f08db';
 
@@ -97,7 +98,6 @@ const _delegateAi = function(req) {
 const client = new line.Client(config);
 
 // register a webhook handler with middleware
-// about the middleware, please refer to doc
 app.post('/webhook', line.middleware(config), (req, res) => {
   Promise
     .all(req.body.events.map(handleEvent))
@@ -112,7 +112,8 @@ function handleEvent(event) {
   }
 
   // create a echoing text message
-  const echo = { type: 'text', text: event.message.text };
+  const echo = { type: 'text', text: "`{event.message.text}`ではなくて画像を送ってください。By新婦" };
+  
 
   // use reply API
   return client.replyMessage(event.replyToken, echo);
