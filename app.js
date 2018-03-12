@@ -106,13 +106,13 @@ app.post('/webhook', line.middleware(config), (req, res) => {
 
 // event handler
 function handleEvent(event) {
-  if (event.type !== 'message' || event.message.type !== 'text') {
+  if (event.type !== 'message' || event.message.type !== 'text' || event.message.type !== 'image') {
     // ignore non-text-message event
     return Promise.resolve(null);
   }
 
   // create a echoing text message
-  const echo = { type: 'text', text: `${event.message.text}ではなくて画像を送ってください。By新婦` };
+  const echo = event.message.type === 'image' ? { type: 'text', text: "Thank you for your image!" } : { type: 'text', text: `${event.message.text}ではなくて画像を送ってください。By新婦` };
   
 
   // use reply API
