@@ -1,4 +1,5 @@
-// global variables
+'use strict';
+
 global.__base = __dirname + '/';
 
 
