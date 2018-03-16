@@ -11,6 +11,7 @@ const IP = "localhost";
 const line = require('@line/bot-sdk');
 const extend = require('extend');
 const send = require(__base + 'http/send-request');
+const templatePath = __base + 'template/app/line/';
 
 // Move to config file
 let photos = [
