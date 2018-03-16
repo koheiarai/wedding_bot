@@ -11,8 +11,8 @@ const PORT = 3000;
 const IP = "localhost";
 const line = require('@line/bot-sdk');
 const extend = require('extend');
-const send = require(__base + 'http/send-request');
-const templatePath = __base + 'template/app/line/';
+const send = require(__dirname + '/http/send-request');
+const templatePath = __dirname + '/template/app/line/';
 const fs = require('fs');
 
 // Move to config file
