@@ -108,12 +108,12 @@ const client = new line.Client(config);
 // register a webhook handler with middleware
 app.post('/webhook', line.middleware(config), (req, res) => {
   Promise
-    .all(req.body.events.map(handleEvent))
+    .all(req.body.events.map(yield handleEvent))
     .then((result) => res.json(result));
 });
 
 // event handler
-function handleEvent(event) {
+function *handleEvent(event) {
   // if (event.type !== 'message' || event.message.type !== 'text' || event.message.type !== 'image') {
   if (event.type !== 'message' || (event.message.type !== 'text' && event.message.type !== 'image') ) {
     // ignore non-text-message event
