@@ -106,7 +106,7 @@ const _delegateAi = function(req) {
 const client = new line.Client(config);
 
 // register a webhook handler with middleware
-app.post('/webhook', line.middleware(config), (req, res) => {
+app.post('/webhook', line.middleware(config), function*(req, res) {
   Promise
     .all(req.body.events.map(yield handleEvent))
     .then((result) => res.json(result));
@@ -158,7 +158,7 @@ function *getImage(messageId) {
   return buffer; // バイナリデータをreturn
 }
 
-function *_request(options) {
+function _request(options) {
     const stack = (new Error().stack);
     return new Promise((resolve, reject) => {
         request(options, (error, response, body) => {
