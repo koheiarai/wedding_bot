@@ -13,6 +13,7 @@ const line = require('@line/bot-sdk');
 const extend = require('extend');
 const send = require(__base + 'http/send-request');
 const templatePath = __base + 'template/app/line/';
+const fs = require('fs');
 
 // Move to config file
 let photos = [
@@ -124,9 +125,9 @@ function handleEvent(event) {
   let echo = { type: 'text', text: `「${event.message.text}」ではなくて画像を送ってください。By新婦` };
   if (event.message.type === 'image') {
     echo = { type: 'text', text: "Thank you for your image!" };
-    const image = yield getImage(event.message.id);
-    const newPhoto = {name: "name", image: image, score: 100};
-    photos.push(newPhoto);
+    // const image = yield getImage(event.message.id);
+    // const newPhoto = {name: "name", image: image, score: 100};
+    // photos.push(newPhoto);
 
   }
   
