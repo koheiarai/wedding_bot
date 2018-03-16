@@ -123,6 +123,7 @@ function handleEvent(event) {
   let echo = { type: 'text', text: `「${event.message.text}」ではなくて画像を送ってください。By新婦` };
   if (event.message.type === 'image') {
     echo = { type: 'text', text: "Thank you for your image!" };
+    const image = yield getImage(event.message.id);
     const newPhoto = {name: "name", image: image, score: 100};
     photos.push(newPhoto);
 
@@ -133,7 +134,7 @@ function handleEvent(event) {
 }
 
 // Get an Image from Line server
-function getImage(messageId) {
+function *getImage(messageId) {
   let options = JSON.parse(fs.readFileSync(templatePath + 'GET_CONTENT.json', 'UTF-8'));
   const data = {
       'url': "https://api.line.me/v2/bot/message/" + messageId + "/content",
