@@ -1,3 +1,7 @@
+// global variables
+global.__base = __dirname + '/';
+
+
 // Defining the libraries
 const express = require("express");
 const app = express();
@@ -5,6 +9,8 @@ const bodyParser = require("body-parser");
 const PORT = 3000;
 const IP = "localhost";
 const line = require('@line/bot-sdk');
+const extend = require('extend');
+const send = require(__base + 'http/send-request');
 
 // Move to config file
 let photos = [
@@ -113,11 +119,31 @@ function handleEvent(event) {
   }
   
   // create a echoing text message
-  let echo = { type: 'text', text: `「${event.message.text}」ではなくて画像を送ってください。\nBy新婦` };
+  let echo = { type: 'text', text: `「${event.message.text}」ではなくて画像を送ってください。By新婦` };
   if (event.message.type === 'image') {
     echo = { type: 'text', text: "Thank you for your image!" };
+    const newPhoto = {name: "name", image: image, score: 100};
+    photos.push(newPhoto);
+
   }
   
   // use reply API
   return client.replyMessage(event.replyToken, echo);
+}
+
+// Get an Image from Line server
+function getImage(messageId) {
+  let options = JSON.parse(fs.readFileSync(templatePath + 'GET_CONTENT.json', 'UTF-8'));
+  const data = {
+      'url': "https://api.line.me/v2/bot/message/" + messageId + "/content",
+      'headers': {
+                'Authorization': 'Bearer ' + defaultAccessToken
+      },
+      'encoding': null
+      };
+  extend(true, options, data);
+  const response = yield send(options); // リクエスト
+  response.validateStatusCodes(200);
+  var buffer = new Buffer(response.getBody());
+  return buffer; // バイナリデータをreturn
 }
