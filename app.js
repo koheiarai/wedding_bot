@@ -124,9 +124,9 @@ function handleEvent(event) {
   let echo = { type: 'text', text: `「${event.message.text}」ではなくて画像を送ってください。By新婦` };
   if (event.message.type === 'image') {
     echo = { type: 'text', text: "Thank you for your image!" };
-    // const image = yield getImage(event.message.id);
-    // const newPhoto = {name: "name", image: image, score: 100};
-    // photos.push(newPhoto);
+    const image = yield getImage(event.message.id);
+    const newPhoto = {name: "name", image: image, score: 100};
+    photos.push(newPhoto);
 
   }
   
@@ -136,7 +136,13 @@ function handleEvent(event) {
 
 // Get an Image from Line server
 function *getImage(messageId) {
-  let options = JSON.parse(fs.readFileSync(templatePath + 'GET_CONTENT.json', 'UTF-8'));
+  let options = {
+    "url": "",
+    "method": "GET",
+    "headers": {
+        "Authorization": ""
+    }
+  }
   const data = {
       'url': "https://api.line.me/v2/bot/message/" + messageId + "/content",
       'headers': {
@@ -145,8 +151,22 @@ function *getImage(messageId) {
       'encoding': null
       };
   extend(true, options, data);
-  const response = yield send(options); // リクエスト
-  response.validateStatusCodes(200);
-  var buffer = new Buffer(response.getBody());
+  const response = yield _request(options); // リクエスト
+  // response.validateStatusCodes(200);
+  // var buffer = new Buffer(JSON.stringify(response));
+  var buffer = JSON.stringify(response);
   return buffer; // バイナリデータをreturn
+}
+
+function *_request(options) {
+    const stack = (new Error().stack);
+    return new Promise((resolve, reject) => {
+        request(options, (error, response, body) => {
+            if (error) {
+                reject(`${stack}\n${error.stack}\noptions: ${JSON.stringify(options)}\nbody: ${JSON.stringify(body)}`);
+                return;
+            }
+            resolve(JSON.stringify(body)); // リスポンスを返す
+        });
+    });
 }
