@@ -112,15 +112,23 @@ const _delegateAi = function(req) {
 const client = new line.Client(config);
 
 // register a webhook handler with middleware
-app.post('/webhook', line.middleware(config), (req, res) => {
-  Promise
-    .all(req.body.events.map(handleEvent))
-    .then((result) => res.json(result));
-});
+// app.post('/webhook', line.middleware(config), (req, res) => {
+//   Promise
+//     .all(req.body.events.map(handleEvent))
+//     .then((result) => res.json(result));
+// });
 
+// Webhook
+app.post('/webhook', line.middleware(config), wrap(function*(req, res) {
+    try {
+        yield handleEvent(req["body"]["events"]["0"]);
+    } catch (e) {
+        console.log(`${e.stack}`)
+    }
+}));
 
 // event handler
-function handleEvent(event) {
+function *handleEvent(event) {
   // if (event.type !== 'message' || event.message.type !== 'text' || event.message.type !== 'image') {
   if (event.type !== 'message' || (event.message.type !== 'text' && event.message.type !== 'image') ) {
     // ignore non-text-message event
@@ -133,9 +141,12 @@ function handleEvent(event) {
   if (event.message.type === 'image') {
     // const image = yield getImage(event.message.id);
     const score = Math.floor(Math.random() * 100) + " points"
+
+    // Write a function to retrieve the name & image from sender
     const newPhoto = {name: "name", image: "https://static.pexels.com/photos/406014/pexels-photo-406014.jpeg", score: score};
     // const newPhoto = {name: "name", image: image, score: score};
     photos.push(newPhoto);
+
     // Here write the function to change the reply depending on the score
     echo = { type: 'text', text: `Thank you for your image! Your score is ${score}!` };
   }
