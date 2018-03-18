@@ -9,7 +9,6 @@ const express = require("express");
 const request = require('request');
 const extend = require('extend');
 const line = require('@line/bot-sdk');
-const wrap = require('co-express');
 const path = require('path');
 const app = express();
 const fs = require('fs');
@@ -115,8 +114,7 @@ app.post('/webhook', line.middleware(config), (req, res) => {
   Promise
     .all(req.body.events.map(handleEvent))
     .then((result) => res.json(result));
-  })
-;
+});
 
 // event handler
 function handleEvent(event) {
@@ -131,9 +129,8 @@ function handleEvent(event) {
   if (event.message.type === 'image') {
     echo = { type: 'text', text: "Thank you for your image!" };
     // const image = yield getImage(event.message.id);
-    const newPhoto = {name: "name", image: "https://static.pexels.com/photos/39317/chihuahua-dog-puppy-cute-39317.jpeg", score: 100};
+    const newPhoto = {name: "name", image: "https://static.pexels.com/photos/406014/pexels-photo-406014.jpeg", score: 100};
     photos.push(newPhoto);
-
   }
   
   // use reply API
