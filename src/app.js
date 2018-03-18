@@ -9,6 +9,7 @@ const express = require("express");
 const request = require('request');
 const extend = require('extend');
 const line = require('@line/bot-sdk');
+const wrap = require('co-express');
 const path = require('path');
 const app = express();
 const fs = require('fs');
@@ -110,11 +111,24 @@ const _delegateAi = function(req) {
 const client = new line.Client(config);
 
 // register a webhook handler with middleware
-app.post('/webhook', line.middleware(config), (req, res) => {
-  Promise
-    .all(req.body.events.map(handleEvent))
-    .then((result) => res.json(result));
-});
+// app.post('/webhook', line.middleware(config), (req, res) => {
+//   Promise
+//     .all(req.body.events.map(handleEvent))
+//     .then((result) => res.json(result));
+// });
+
+app.post('/webhook', line.middleware(config), wrap(function*(req, res) {
+  try {
+      yield req.body.events.map(handleEvent);
+  } catch (e) {
+    console.log("Got an error!");
+      // yield callbackError(e, new SmartRequest(req, path), res);
+  }
+  // Promise
+  //   .all(req.body.events.map(handleEvent))
+  //   .then((result) => res.json(result));
+  })
+);
 
 // event handler
 function handleEvent(event) {
