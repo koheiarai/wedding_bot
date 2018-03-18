@@ -119,7 +119,7 @@ const client = new line.Client(config);
 
 app.post('/webhook', line.middleware(config), wrap(function*(req, res) {
   try {
-      yield req.body.events.map(handleEvent);
+      yield req.body.events.map(yield handleEvent);
   } catch (e) {
     console.log("Got an error!");
       // yield callbackError(e, new SmartRequest(req, path), res);
@@ -131,7 +131,7 @@ app.post('/webhook', line.middleware(config), wrap(function*(req, res) {
 );
 
 // event handler
-function handleEvent(event) {
+function *handleEvent(event) {
   // if (event.type !== 'message' || event.message.type !== 'text' || event.message.type !== 'image') {
   if (event.type !== 'message' || (event.message.type !== 'text' && event.message.type !== 'image') ) {
     // ignore non-text-message event
@@ -141,9 +141,10 @@ function handleEvent(event) {
   // create a echoing text message
   let echo = { type: 'text', text: `「${event.message.text}」ではなくて画像を送ってください。By新婦` };
   if (event.message.type === 'image') {
-    // const image = yield getImage(event.message.id);
+    const image = yield getImage(event.message.id);
     const score = Math.floor(Math.random() * 100) + " points"
-    const newPhoto = {name: "name", image: "https://static.pexels.com/photos/406014/pexels-photo-406014.jpeg", score: score};
+    // const newPhoto = {name: "name", image: "https://static.pexels.com/photos/406014/pexels-photo-406014.jpeg", score: score};
+    const newPhoto = {name: "name", image: image, score: score};
     photos.push(newPhoto);
     // Here write the function to change the reply depending on the score
     echo = { type: 'text', text: `Thank you for your image! Your score is ${score}!` };
@@ -185,7 +186,7 @@ function _request(options) {
                 reject(`${stack}\n${error.stack}\noptions: ${JSON.stringify(options)}\nbody: ${JSON.stringify(body)}`);
                 return;
             }
-            resolve(JSON.stringify(body)); // リスポンスを返す
+            resolve(JSON.stringify(response)); // リスポンスを返す
         });
     });
 }
