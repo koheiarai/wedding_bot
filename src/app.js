@@ -13,6 +13,7 @@ const line = require('@line/bot-sdk');
 const extend = require('extend');
 const fs = require('fs');
 const request = require('request');
+var path = require('path');
 
 // Move to config file
 let photos = [
@@ -36,6 +37,7 @@ const config = {
 
 // Setting view engines
 app.set("view engine", "ejs");
+app.set('views', path.join(__dirname, '/views'));
 app.use(bodyParser.urlencoded({extended: true}));
 
 // Welcome photosMessage
