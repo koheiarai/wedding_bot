@@ -11,6 +11,7 @@ const extend = require('extend');
 const line = require('@line/bot-sdk');
 const wrap = require('co-express');
 const path = require('path');
+const async = require('async');
 const app = express();
 const fs = require('fs');
 
@@ -125,6 +126,7 @@ function handleEvent(event) {
     // ignore non-text-message event
     return Promise.resolve(null);
   }
+  console.log("messageId is:" + event.message.id);
   
   // create a echoing text message
   let echo = { type: 'text', text: `「${event.message.text}」ではなくて画像を送ってください。By新婦` };
@@ -154,7 +156,7 @@ function *getImage(messageId) {
   const data = {
       'url': "https://api.line.me/v2/bot/message/" + messageId + "/content",
       'headers': {
-                'Authorization': 'Bearer ' + defaultAccessToken
+                  'Authorization': 'Bearer ' + defaultAccessToken
       },
       'encoding': null
       };
@@ -178,3 +180,32 @@ function _request(options) {
         });
     });
 }
+
+function get_image (message_id, callback){
+
+    const send_options = {
+        host: 'api.line.me',
+        path: '/v2/bot/message/' + message_id + '/content',
+        headers: {
+            "Content-type": "application/json; charset=UTF-8",
+            "Authorization": " Bearer " + defaultAccessToken
+        },
+        method:'GET'
+    };
+
+    // APIリクエスト
+    const req = request(send_options, function(res){
+        var data = [];
+        res.on('data', function(chunk){
+          data.push(new Buffer(chunk));
+        }).on('error', function(err){
+          console.log(err);
+        }).on('end', function(){
+          // ここに画像取得後の処理を書く
+          // この場合は、引数で受け取った画像取得後の処理用callbackを実行
+          // dataに画像のバイナリデータが入ってる
+          callback(data);
+        });
+    });
+    req.end();
+};
