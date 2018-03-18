@@ -127,10 +127,12 @@ function handleEvent(event) {
   // create a echoing text message
   let echo = { type: 'text', text: `「${event.message.text}」ではなくて画像を送ってください。By新婦` };
   if (event.message.type === 'image') {
-    echo = { type: 'text', text: "Thank you for your image!" };
     // const image = yield getImage(event.message.id);
-    const newPhoto = {name: "name", image: "https://static.pexels.com/photos/406014/pexels-photo-406014.jpeg", score: 100};
+    const score = Math.floor(Math.random() * 100) + " points"
+    const newPhoto = {name: "name", image: "https://static.pexels.com/photos/406014/pexels-photo-406014.jpeg", score: score};
     photos.push(newPhoto);
+    // Here write the function to change the reply depending on the score
+    echo = { type: 'text', text: `Thank you for your image! Your score is ${score}!` };
   }
   
   // use reply API
