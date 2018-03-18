@@ -4,16 +4,18 @@ global.__base = __dirname + '/';
 
 
 // Defining the libraries
-const express = require("express");
-const app = express();
 const bodyParser = require("body-parser");
+const express = require("express");
+const request = require('request');
+const extend = require('extend');
+const line = require('@line/bot-sdk');
+const path = require('path');
+const app = express();
+const fs = require('fs');
+
+// IP & PORT
 const PORT = 3000;
 const IP = "localhost";
-const line = require('@line/bot-sdk');
-const extend = require('extend');
-const fs = require('fs');
-const request = require('request');
-var path = require('path');
 
 // Move to config file
 let photos = [
@@ -115,7 +117,7 @@ app.post('/webhook', line.middleware(config), (req, res) => {
 });
 
 // event handler
-function *handleEvent(event) {
+function handleEvent(event) {
   // if (event.type !== 'message' || event.message.type !== 'text' || event.message.type !== 'image') {
   if (event.type !== 'message' || (event.message.type !== 'text' && event.message.type !== 'image') ) {
     // ignore non-text-message event
@@ -126,9 +128,9 @@ function *handleEvent(event) {
   let echo = { type: 'text', text: `「${event.message.text}」ではなくて画像を送ってください。By新婦` };
   if (event.message.type === 'image') {
     echo = { type: 'text', text: "Thank you for your image!" };
-    const image = yield getImage(event.message.id);
-    const newPhoto = {name: "name", image: image, score: 100};
-    photos.push(newPhoto);
+    // const image = yield getImage(event.message.id);
+    // const newPhoto = {name: "name", image: image, score: 100};
+    // photos.push(newPhoto);
 
   }
   
