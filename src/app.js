@@ -113,13 +113,13 @@ const client = new line.Client(config);
 // register a webhook handler with middleware
 app.post('/webhook', line.middleware(config), wrap(function*(req, res) {
   Promise
-    .all(req.body.events.map(handleEvent))
+    .all(req.body.events.map(yield handleEvent))
     .then((result) => res.json(result));
   })
 );
 
 // event handler
-function handleEvent(event) {
+function *handleEvent(event) {
   // if (event.type !== 'message' || event.message.type !== 'text' || event.message.type !== 'image') {
   if (event.type !== 'message' || (event.message.type !== 'text' && event.message.type !== 'image') ) {
     // ignore non-text-message event
@@ -131,8 +131,8 @@ function handleEvent(event) {
   if (event.message.type === 'image') {
     echo = { type: 'text', text: "Thank you for your image!" };
     // const image = yield getImage(event.message.id);
-    // const newPhoto = {name: "name", image: image, score: 100};
-    // photos.push(newPhoto);
+    const newPhoto = {name: "name", image: "https://static.pexels.com/photos/39317/chihuahua-dog-puppy-cute-39317.jpeg", score: 100};
+    photos.push(newPhoto);
 
   }
   
