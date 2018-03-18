@@ -111,27 +111,15 @@ const _delegateAi = function(req) {
 const client = new line.Client(config);
 
 // register a webhook handler with middleware
-// app.post('/webhook', line.middleware(config), (req, res) => {
-//   Promise
-//     .all(req.body.events.map(handleEvent))
-//     .then((result) => res.json(result));
-// });
+app.post('/webhook', line.middleware(config), (req, res) => {
+  Promise
+    .all(req.body.events.map(handleEvent))
+    .then((result) => res.json(result));
+});
 
-app.post('/webhook', line.middleware(config), wrap(function*(req, res) {
-  try {
-      yield req.body.events.map(yield handleEvent);
-  } catch (e) {
-    console.log("Got an error!");
-      // yield callbackError(e, new SmartRequest(req, path), res);
-  }
-  // Promise
-  //   .all(req.body.events.map(handleEvent))
-  //   .then((result) => res.json(result));
-  })
-);
 
 // event handler
-function *handleEvent(event) {
+function handleEvent(event) {
   // if (event.type !== 'message' || event.message.type !== 'text' || event.message.type !== 'image') {
   if (event.type !== 'message' || (event.message.type !== 'text' && event.message.type !== 'image') ) {
     // ignore non-text-message event
@@ -141,10 +129,10 @@ function *handleEvent(event) {
   // create a echoing text message
   let echo = { type: 'text', text: `「${event.message.text}」ではなくて画像を送ってください。By新婦` };
   if (event.message.type === 'image') {
-    const image = yield getImage(event.message.id);
+    // const image = yield getImage(event.message.id);
     const score = Math.floor(Math.random() * 100) + " points"
-    // const newPhoto = {name: "name", image: "https://static.pexels.com/photos/406014/pexels-photo-406014.jpeg", score: score};
-    const newPhoto = {name: "name", image: image, score: score};
+    const newPhoto = {name: "name", image: "https://static.pexels.com/photos/406014/pexels-photo-406014.jpeg", score: score};
+    // const newPhoto = {name: "name", image: image, score: score};
     photos.push(newPhoto);
     // Here write the function to change the reply depending on the score
     echo = { type: 'text', text: `Thank you for your image! Your score is ${score}!` };
