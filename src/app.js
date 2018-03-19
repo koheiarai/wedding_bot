@@ -142,7 +142,7 @@ function *handleEvent(event) {
   let echo = { type: 'text', text: `「${event.message.text}」ではなくて画像を送ってください。By新婦` };
   if (event.message.type === 'image') {
     let image = yield getImage(event.message.id);
-    let name = yield getUserName(event.message);
+    let name = yield getUserName(event);
     const score = Math.floor(Math.random() * 100) + " points"
 
     // Write a function to retrieve the name & image
