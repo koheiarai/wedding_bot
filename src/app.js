@@ -141,11 +141,14 @@ function *handleEvent(event) {
   // create a echoing text message
   let echo = { type: 'text', text: `「${event.message.text}」ではなくて画像を送ってください。By新婦` };
   if (event.message.type === 'image') {
-    // const image = yield getImage(event.message.id);
+    const image = yield getImage(event.message.id);
     const score = Math.floor(Math.random() * 100) + " points"
 
     // Write a function to retrieve the name & image from sender
     const newPhoto = {name: "name", image: "https://static.pexels.com/photos/406014/pexels-photo-406014.jpeg", score: score};
+    // Message ID
+    console.log("image is:" + image);
+    
     // const newPhoto = {name: "name", image: image, score: score};
     photos.push(newPhoto);
 
