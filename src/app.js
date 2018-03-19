@@ -210,9 +210,9 @@ function *getUserName(event) {
   extend(true, options, data);
 
   const response = yield _request(options); // リクエスト
-  console.log(JSON.stringify(response));
-  console.log(JSON.stringify(response.body));
-  console.log(JSON.stringify(response.body.displayName));
+  console.log("response" + JSON.stringify(response));
+  console.log("response Body" + JSON.stringify(response.body));
+  console.log("response displayName" + JSON.stringify(response.body.displayName));
   return response.body.displayName;
 }
 
