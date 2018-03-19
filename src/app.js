@@ -144,7 +144,7 @@ function *handleEvent(event) {
     const image = yield getImage(event.message.id);
     const score = Math.floor(Math.random() * 100) + " points"
 
-    // Write a function to retrieve the name & image from sender
+    // Write a function to retrieve the name & image
     const newPhoto = {name: "name", image: "https://static.pexels.com/photos/406014/pexels-photo-406014.jpeg", score: score};
     // Message ID
     console.log("image is:" + image);
@@ -160,7 +160,7 @@ function *handleEvent(event) {
   return client.replyMessage(event.replyToken, echo);
 }
 
-// Get an Image from Line server
+// Get an image from Line server
 function *getImage(messageId) {
   let options = {
     "url": "",
@@ -182,11 +182,11 @@ function *getImage(messageId) {
   const response = yield _request(options); // リクエスト
   // response.validateStatusCodes(200);
   var buffer = new Buffer(JSON.stringify(response));
-  console.log(buffer);
   // var buffer = JSON.stringify(response);
   return buffer; // バイナリデータをreturn
 }
 
+// Http request
 function _request(options) {
     const stack = (new Error().stack);
     return new Promise((resolve, reject) => {
@@ -199,32 +199,3 @@ function _request(options) {
         });
     });
 }
-
-function get_image (message_id, callback){
-
-    const send_options = {
-        host: 'api.line.me',
-        path: '/v2/bot/message/' + message_id + '/content',
-        headers: {
-            "Content-type": "application/json; charset=UTF-8",
-            "Authorization": " Bearer " + defaultAccessToken
-        },
-        method:'GET'
-    };
-
-    // APIリクエスト
-    const req = request(send_options, function(res){
-        var data = [];
-        res.on('data', function(chunk){
-          data.push(new Buffer(chunk));
-        }).on('error', function(err){
-          console.log(err);
-        }).on('end', function(){
-          // ここに画像取得後の処理を書く
-          // この場合は、引数で受け取った画像取得後の処理用callbackを実行
-          // dataに画像のバイナリデータが入ってる
-          callback(data);
-        });
-    });
-    req.end();
-};
