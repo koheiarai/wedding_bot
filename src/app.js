@@ -146,6 +146,7 @@ function *handleEvent(event) {
 
     // Write a function to retrieve the name & image
     image = `data:image/jpeg;base64,${image.toString('base64')}`;
+    console.log(image.toString('base64'));
     // const newPhoto = {name: "name", image: "https://static.pexels.com/photos/406014/pexels-photo-406014.jpeg", score: score};
     const newPhoto = {name: "name", image: image, score: score};
     // Message ID
