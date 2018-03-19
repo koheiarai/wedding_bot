@@ -134,6 +134,8 @@ function *handleEvent(event) {
     // ignore non-text-message event
     return Promise.resolve(null);
   }
+  
+  // Message ID
   console.log("messageId is:" + event.message.id);
   
   // create a echoing text message
@@ -170,12 +172,15 @@ function *getImage(messageId) {
                   'Authorization': 'Bearer ' + defaultAccessToken
       },
       'encoding': null
-      };
+    };
   extend(true, options, data);
+  console.log("options" + options);
+
   const response = yield _request(options); // リクエスト
   // response.validateStatusCodes(200);
-  // var buffer = new Buffer(JSON.stringify(response));
-  var buffer = JSON.stringify(response);
+  var buffer = new Buffer(JSON.stringify(response));
+  console.log(buffer);
+  // var buffer = JSON.stringify(response);
   return buffer; // バイナリデータをreturn
 }
 
