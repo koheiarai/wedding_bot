@@ -28,7 +28,7 @@ let photos = [
 ]
 
 // Line config
-// ToDo: Move to 
+// ToDo: Move to config file
 const defaultAccessToken = 'pY08L55FaKvaHFayaOdPDySWBMQgJ0m6TvhjWa/axFQksupY7VvxIyuKA4EZ5geFFq6IzwmGD/zJSGtQulaLwsv3z79Ek7gs0MXgbuPbEH62+qkQcjdhFyMm/GJR/pwB4RuXWvb0klGJbfSBxM2iAgdB04t89/1O/w1cDnyilFU=';
 const defaultSecret = 'c71eb556eadc94d7e8bdeee14d9f08db';
 
@@ -142,13 +142,14 @@ function *handleEvent(event) {
   let echo = { type: 'text', text: `「${event.message.text}」ではなくて画像を送ってください。By新婦` };
   if (event.message.type === 'image') {
     let image = yield getImage(event.message.id);
+    let name = yield getUserName(event.message);
     const score = Math.floor(Math.random() * 100) + " points"
 
     // Write a function to retrieve the name & image
     image = `data:image/png;base64, ${image.toString('base64')}`;
     // console.log(image.toString('base64'));
     // const newPhoto = {name: "name", image: "https://static.pexels.com/photos/406014/pexels-photo-406014.jpeg", score: score};
-    const newPhoto = {name: "name", image: image, score: score};
+    const newPhoto = {name: name, image: image, score: score};
     // Message ID
     // console.log(`data:image/jpeg;base64,${image}`);
     
@@ -186,6 +187,30 @@ function *getImage(messageId) {
   var buffer = new Buffer(JSON.stringify(response));
   // var buffer = JSON.stringify(response);
   return buffer; // バイナリデータをreturn
+}
+
+// Get an user name from Line server
+function *getUserName(event) {
+  const user_id = event['source']['userId'];
+  let options = {
+    "url": "",
+    "method": "GET",
+    "headers": {
+        "Authorization": ""
+    }
+  }
+  const data = {
+      'url': "https://api.line.me/v2/bot/profile/" + user_id,
+      'headers': {
+                  'Authorization': 'Bearer ' + defaultAccessToken
+      },
+      "json": true,
+      'encoding': null
+    };
+  extend(true, options, data);
+
+  const response = yield _request(options); // リクエスト
+  return response.body.displayName; // バイナリデータをreturn
 }
 
 // Http request
