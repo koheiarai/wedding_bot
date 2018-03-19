@@ -182,9 +182,10 @@ function *getImage(messageId) {
 
   const response = yield _request(options); // リクエスト
   // response.validateStatusCodes(200);
+  console.log(JSON.stringify(response));
   var buffer = new Buffer(JSON.stringify(response));
   // var buffer = JSON.stringify(response);
-  return buffer.data; // バイナリデータをreturn
+  return buffer; // バイナリデータをreturn
 }
 
 // Http request
