@@ -211,7 +211,9 @@ function *getUserName(event) {
 
   const response = yield _request(options); // リクエスト
   console.log(JSON.stringify(response));
-  return response.body.displayName; // バイナリデータをreturn
+  console.log(JSON.stringify(response.body));
+  console.log(JSON.stringify(response.body.displayName));
+  return response.body.displayName;
 }
 
 // Http request
