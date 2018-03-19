@@ -145,11 +145,11 @@ function *handleEvent(event) {
     const score = Math.floor(Math.random() * 100) + " points"
 
     // Write a function to retrieve the name & image
-    image = `data:image/jpeg;base64${image}`;
+    image = `data:image/jpeg;base64,${image}`;
     // const newPhoto = {name: "name", image: "https://static.pexels.com/photos/406014/pexels-photo-406014.jpeg", score: score};
     const newPhoto = {name: "name", image: image, score: score};
     // Message ID
-    // console.log(`data:image/jpeg;base64${image}`);
+    // console.log(`data:image/jpeg;base64,${image}`);
     
     photos.push(newPhoto);
 
