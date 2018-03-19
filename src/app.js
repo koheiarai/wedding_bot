@@ -210,6 +210,7 @@ function *getUserName(event) {
   extend(true, options, data);
 
   const response = yield _request(options); // リクエスト
+  console.log(JSON.stringify(response));
   return response.body.displayName; // バイナリデータをreturn
 }
 
