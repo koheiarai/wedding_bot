@@ -184,7 +184,7 @@ function *getImage(messageId) {
   // response.validateStatusCodes(200);
   var buffer = new Buffer(JSON.stringify(response));
   // var buffer = JSON.stringify(response);
-  return buffer; // バイナリデータをreturn
+  return buffer.data; // バイナリデータをreturn
 }
 
 // Http request
