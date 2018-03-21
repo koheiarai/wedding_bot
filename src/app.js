@@ -5,6 +5,7 @@ global.__base = __dirname + '/';
 
 // Defining the libraries
 const fs = require('fs');
+const express = require("express");
 const app = express();
 const path = require('path');
 const wrap = require('co-express');
@@ -12,7 +13,6 @@ const line = require('@line/bot-sdk');
 const async = require('async');
 const extend = require('extend');
 const request = require('request');
-const express = require("express");
 const bodyParser = require("body-parser");
 
 // Redis
