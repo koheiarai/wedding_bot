@@ -188,12 +188,12 @@ function *handleEvent(event) {
   if (event.message.type === 'image') {
     let image = yield getImage(event.message.id);
     let name = yield getUserName(event);
+    const imageUrl = yield uploadImage(image);
     // const event.message.text === "笑顔" ? 
-    // const score = yield getFaceInfo(image);
-    const score = Math.floor(Math.random() * 100) + " points";
+    const score = yield getFaceInfo(imageUrl);
+    // const score = Math.floor(Math.random() * 100) + " points";
     // Write a function to retrieve the name & image
     image = `data:image/png;base64, ${image.toString('base64')}`;
-    yield uploadImage(image);
     const newPhoto = {name: name, image: image, score: score};
     // Message ID
 
@@ -287,7 +287,7 @@ const CAMERA = {
   };
   
   // Get an user name from Line server
-function *getFaceInfo(image) {
+function *getFaceInfo(imageURL) {
   let options = {
     "url": "https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect?returnFaceLandmarks=true&returnFaceLandmarks=false&returnFaceAttributes=age,gender,headPose,smile,facialHair,glasses,emotion,hair,makeup,occlusion,accessories,blur,exposure,noise",
     "method": "POST",
@@ -316,23 +316,23 @@ function *getFaceInfo(image) {
 function *uploadImage(base64) {
   AWS.config.update({ accessKeyId: "AKIAIHXOSLZMOJRH3UMA", secretAccessKey: "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" });
 
-// Create an s3 instance
+  // Create an s3 instance
   const s3 = new AWS.S3();
 
-// Ensure that you POST a base64 data to your server.
-// Let's assume the variable "base64" is one.
+  // Ensure that you POST a base64 data to your server.
+  // Let's assume the variable "base64" is one.
   const base64Data = new Buffer(base64.replace(/^data:image\/\w+;base64,/, ""), 'base64')
 
-// Getting the file type, ie: jpeg, png or gif
+  // Getting the file type, ie: jpeg, png or gif
   const type = base64.split(';')[0].split('/')[1]
 
-// Generally we'd have a userId associated with the image
-// For this example, we'll simulate one
+  // Generally we'd have a userId associated with the image
+  // For this example, we'll simulate one
   const userId = 1;
 
-// With this setup, each time your user uploads an image, will be overwritten.
-// To prevent this, use a unique Key each time.
-// This won't be needed if they're uploading their avatar, hence the filename, userAvatar.js.
+  // With this setup, each time your user uploads an image, will be overwritten.
+  // To prevent this, use a unique Key each time.
+  // This won't be needed if they're uploading their avatar, hence the filename, userAvatar.js.
   const params = {
     Bucket: "wedding.content",
     Key: `${userId}.${type}`, // type is not required
@@ -342,13 +342,14 @@ function *uploadImage(base64) {
     ContentType: `image/${type}` // required. Notice the back ticks
   }
 
-// The upload() is used instead of putObject() as we'd need the location url and assign that to our user profile/database
-// see: http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#upload-property
+  // The upload() is used instead of putObject() as we'd need the location url and assign that to our user profile/database
+  // see: http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#upload-property
   s3.upload(params, (err, data) => {
     if (err) { return console.log(err) }
     
     // Continue if no error
     // Save data.Location in your database
     console.log('Image successfully uploaded.');
+    return `${userId}.${type}`;
   });
 }
