@@ -4,16 +4,20 @@ global.__base = __dirname + '/';
 
 
 // Defining the libraries
-const bodyParser = require("body-parser");
-const express = require("express");
-const request = require('request');
-const extend = require('extend');
-const line = require('@line/bot-sdk');
-const wrap = require('co-express');
-const path = require('path');
-const async = require('async');
-const app = express();
 const fs = require('fs');
+const app = express();
+const path = require('path');
+const wrap = require('co-express');
+const line = require('@line/bot-sdk');
+const async = require('async');
+const extend = require('extend');
+const request = require('request');
+const express = require("express");
+const bodyParser = require("body-parser");
+
+// Redis
+const redis = require('redis');
+const client = redis.createClient();
 
 // IP & PORT
 const PORT = 3000;
@@ -91,6 +95,14 @@ const _delegateAi = function(message) {
       CAMERA.template.title = "①笑顔";
       CAMERA.template.text = "素敵な笑顔を撮影して送ってください！";
       res = CAMERA;
+      client.on('error', function(err){
+        console.log('Something went wrong ', err)
+      });
+      client.set(message, '猫', redis.print);
+      client.get(message, function(error, result) {
+        if (error) throw error;
+        console.log('GET result ->', result)
+      });
       break;
     case "猫顔":
       // res = "Two!";
@@ -156,7 +168,6 @@ app.post('/webhook', line.middleware(config), wrap(function*(req, res) {
 
 // event handler
 function *handleEvent(event) {
-  // if (event.type !== 'message' || event.message.type !== 'text' || event.message.type !== 'image') {
   if (event.type !== 'message' || (event.message.type !== 'text' && event.message.type !== 'image') ) {
     // ignore non-text-message event
     return Promise.resolve(null);
@@ -165,10 +176,8 @@ function *handleEvent(event) {
   // Message ID
   console.log("messageId is:" + event.message.id);
   
-  // create a echoing text message
-  // const msg = _delegateAi(event.message.text)
-  
-  let echo = _delegateAi(event.message.text)
+  // create a text message
+  let msg = _delegateAi(event.message.text)
   // let echo = { type: 'text', text: `「${event.message.text}」ではなくて画像を送ってください。By新婦` };
   
   // let echo = { type: 'text', text: msg };
@@ -186,11 +195,11 @@ function *handleEvent(event) {
     photos.push(newPhoto);
 
     // Here write the function to change the reply depending on the score
-    echo = { type: 'text', text: `Thank you for your image! Your score is ${score}!` };
+    msg = { type: 'text', text: `Thank you for your image! Your score is ${score}!` };
   }
   
   // use reply API
-  return client.replyMessage(event.replyToken, echo);
+  return client.replyMessage(event.replyToken, msg);
 }
 
 // Get an image from Line server
@@ -254,6 +263,7 @@ function _request(options) {
     });
 }
 
+// Move to another file
 const CAMERA = {
     "type": "template",
     "altText": "this is a template",
