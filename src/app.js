@@ -16,8 +16,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 
 // Redis
-const redis = require('redis');
-const client = redis.createClient();
+// const redis = require('redis');
+// const client = redis.createClient();
 
 // IP & PORT
 const PORT = 3000;
@@ -95,14 +95,14 @@ const _delegateAi = function(message) {
       CAMERA.template.title = "①笑顔";
       CAMERA.template.text = "素敵な笑顔を撮影して送ってください！";
       res = CAMERA;
-      client.on('error', function(err){
-        console.log('Something went wrong ', err)
-      });
-      client.set(message, '猫', redis.print);
-      client.get(message, function(error, result) {
-        if (error) throw error;
-        console.log('GET result ->', result)
-      });
+      // client.on('error', function(err){
+      //   console.log('Something went wrong ', err)
+      // });
+      // client.set(message, '猫', redis.print);
+      // client.get(message, function(error, result) {
+      //   if (error) throw error;
+      //   console.log('GET result ->', result)
+      // });
       break;
     case "猫顔":
       // res = "Two!";
