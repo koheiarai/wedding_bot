@@ -14,6 +14,7 @@ const async = require('async');
 const extend = require('extend');
 const request = require('request');
 const bodyParser = require("body-parser");
+const uuid = require('node-uuid');
 
 // Redis
 // const redis = require('redis');
@@ -325,7 +326,7 @@ function *uploadImage(base64) {
   const type = base64.split(';')[0].split('/')[1]
 
   // ToDo: Change to unique id so that the images are not overwritten
-  const userId = 1;
+  const userId = uuid.v4();
 
   // With this setup, each time your user uploads an image, will be overwritten.
   // To prevent this, use a unique Key each time.
