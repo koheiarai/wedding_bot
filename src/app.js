@@ -185,7 +185,7 @@ function *handleEvent(event) {
     const imageUrl = yield uploadImage(image);
     console.log("DEBUG imageUrl: " + imageUrl)
     let score = yield getFaceInfo(imageUrl);
-    score = score * 100 + " points";
+    score = Math.floor(score * 100) + " points";
     // const score = Math.floor(Math.random() * 100) + " points";
 
     // Write a function to retrieve the name & image
