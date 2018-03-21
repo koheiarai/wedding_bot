@@ -80,28 +80,42 @@ app.listen(process.env.PORT || PORT, function(){
 // Have a function of each AI depending on the input.
 // Move to another file and that file is referred to as the master logic file.
 // ToDo: Allow line app to send an image to the web application
-const _delegateAi = function(req) {
+// here write a function to change the message and API
+const _delegateAi = function(message) {
   let res = "";
-  switch(req.body.option){
-    case "1":
+  switch(message) {
+    case "笑顔":
       // res = "One!";
-      res = Math.floor(Math.random() * 100) + " points";
+      // res = Math.floor(Math.random() * 100) + " points";
+      res = "笑顔って素敵ですよね！最高の笑顔を撮影して送ってください！";
       break;
-    case "2":
+    case "猫顔":
       // res = "Two!";
-      res = Math.floor(Math.random() * 100) + " points";
+      // res = Math.floor(Math.random() * 100) + " points";
+      res = "新婦は大の猫好きって知ってました？癒しの猫顔を撮影して送ってください！";
       break;
-    case "3":
+    case "サンシャイン顔":
       // res = "Three!";
-      res = Math.floor(Math.random() * 100) + " points";
+      // res = Math.floor(Math.random() * 100) + " points";
+      res = "イェーイ！最高のサンシャイン顔を撮影して送ってください！";
       break;
-    case "4":
+    case "夫婦ポーズ":
       // res = "Four!";
-      res = Math.floor(Math.random() * 100) + " points";
+      // res = Math.floor(Math.random() * 100) + " points";
+      res = "夫婦ポーズ！仲良しポーズを撮影して送ってください！";
       break;
-    case "5":
+    case "晋太ポーズ":
       // res = "Five!";
-      res = Math.floor(Math.random() * 100) + " points";
+      // res = Math.floor(Math.random() * 100) + " points";
+      res = "晋太さんポーズ！ポーズをできるだけ似せてください！";
+      break;
+    case "奈々ポーズ":
+      // res = "Five!";
+      // res = Math.floor(Math.random() * 100) + " points";
+      res = "奈々さんポーズ！キレキレのダンスポーズを撮影して送ってください！";
+      break;
+    default:
+      res = `「${message}」ではなくて画像を送ってください。By新婦`;
       break;
   }
   return res
@@ -139,7 +153,10 @@ function *handleEvent(event) {
   console.log("messageId is:" + event.message.id);
   
   // create a echoing text message
-  let echo = { type: 'text', text: `「${event.message.text}」ではなくて画像を送ってください。By新婦` };
+  const msg = _delegateAi(event.message.text)
+  // let echo = { type: 'text', text: `「${event.message.text}」ではなくて画像を送ってください。By新婦` };
+  let echo = { type: 'text', text: msg };
+  
   if (event.message.type === 'image') {
     let image = yield getImage(event.message.id);
     let name = yield getUserName(event);
@@ -147,12 +164,9 @@ function *handleEvent(event) {
 
     // Write a function to retrieve the name & image
     image = `data:image/png;base64, ${image.toString('base64')}`;
-    // console.log(image.toString('base64'));
-    // const newPhoto = {name: "name", image: "https://static.pexels.com/photos/406014/pexels-photo-406014.jpeg", score: score};
     const newPhoto = {name: name, image: image, score: score};
     // Message ID
-    // console.log(`data:image/jpeg;base64,${image}`);
-    
+
     photos.push(newPhoto);
 
     // Here write the function to change the reply depending on the score
@@ -182,8 +196,6 @@ function *getImage(messageId) {
   extend(true, options, data);
 
   const response = yield _request(options); // リクエスト
-  // response.validateStatusCodes(200);
-  console.log(JSON.stringify(response));
   const buffer = new Buffer(response.body);
   return buffer; // バイナリデータをreturn
 }
@@ -209,9 +221,6 @@ function *getUserName(event) {
   extend(true, options, data);
 
   const response = yield _request(options); // リクエスト
-  console.log("response" + JSON.stringify(response));
-  console.log("response Body" + JSON.stringify(response.body));
-  console.log("response displayName" + JSON.stringify(response.body.displayName));
   return response.body.displayName;
 }
 
