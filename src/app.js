@@ -179,7 +179,7 @@ function *handleEvent(event) {
   }
   
   // use reply API
-  return client.replyMessage(event.replyToken, [echo, CAMERA]);
+  return client.replyMessage(event.replyToken, echo);
 }
 
 // Get an image from Line server
