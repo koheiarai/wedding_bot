@@ -292,7 +292,6 @@ function *getFaceInfo(image) {
     }
   }
   const data = {
-      'url': "https://api.line.me/v2/bot/profile/" + user_id,
       'headers': {
                   'Ocp-Apim-Subscription-Key': '3a414de09fdd49088ba4414e9641522f'
       },
