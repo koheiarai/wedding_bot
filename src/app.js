@@ -81,41 +81,50 @@ app.listen(process.env.PORT || PORT, function(){
 // Move to another file and that file is referred to as the master logic file.
 // ToDo: Allow line app to send an image to the web application
 // here write a function to change the message and API
+// ToDo: Move to DB
 const _delegateAi = function(message) {
   let res = "";
   switch(message) {
     case "笑顔":
       // res = "One!";
       // res = Math.floor(Math.random() * 100) + " points";
-      CAMERA.template.title = "①　笑顔";
-      CAMERA.template.text = "笑顔って素敵ですよね！\n最高の笑顔を撮影して送ってください！";
-      res = CAMERA;
-      // res = "笑顔って素敵ですよね！最高の笑顔を撮影して送ってください！";
+      CAMERA.template.title = "①笑顔";
+      CAMERA.template.text = "素敵な笑顔を撮影して送ってください！";
       break;
     case "猫顔":
       // res = "Two!";
       // res = Math.floor(Math.random() * 100) + " points";
-      res = "新婦は大の猫好きって知ってました？癒しの猫顔を撮影して送ってください！";
+      CAMERA.template.title = "②猫顔";
+      CAMERA.template.text = "新婦は大の猫好きって知ってました？猫顔を撮影して送ってください！";
+      res = CAMERA;
       break;
     case "サンシャイン顔":
       // res = "Three!";
       // res = Math.floor(Math.random() * 100) + " points";
-      res = "イェーイ！最高のサンシャイン顔を撮影して送ってください！";
+      CAMERA.template.title = "③サンシャイン顔";
+      CAMERA.template.text = "イェーイ！最高のサンシャイン顔を撮影して送ってください！";
+      res = CAMERA;
       break;
     case "夫婦ポーズ":
       // res = "Four!";
       // res = Math.floor(Math.random() * 100) + " points";
-      res = "夫婦ポーズ！仲良しポーズを撮影して送ってください！";
+      CAMERA.template.title = "④夫婦ポーズ";
+      CAMERA.template.text = "夫婦ポーズ！仲良しポーズを撮影して送ってください！";
+      res = CAMERA;
       break;
     case "晋太ポーズ":
       // res = "Five!";
       // res = Math.floor(Math.random() * 100) + " points";
-      res = "晋太さんポーズ！ポーズをできるだけ似せてください！";
+      CAMERA.template.title = "⑤晋太さんポーズ";
+      CAMERA.template.text = "晋太さんポーズ！ポーズをできるだけ似せてください！";
+      res = CAMERA;
       break;
     case "奈々ポーズ":
       // res = "Five!";
       // res = Math.floor(Math.random() * 100) + " points";
-      res = "奈々さんポーズ！キレキレのダンスポーズを撮影して送ってください！";
+      CAMERA.template.title = "⑥奈々さんポーズ";
+      CAMERA.template.text = "奈々さんポーズ！キレキレのダンスポーズを撮影して送ってください！";
+      res = CAMERA;
       break;
     default:
       res = { type: 'text', text: `「${message}」ではなくて画像を送ってください。By新婦` };
