@@ -309,12 +309,10 @@ function *getFaceInfo(imageURL) {
     };
   extend(true, options, data);
 
+  console.log("JSON request: " + JSON.stringify(options));
   const response = yield _request(options); // リクエスト
   console.log("raw response: " + response);
   console.log("JSON response: " + JSON.stringify(response));
-  console.log("JSON response: " + JSON.stringify(response));
-  console.log("JSON response: " + JSON.stringify(response[0]));
-  console.log("JSON response: " + JSON.stringify(response[0]["faceAttributes"]));
   return response[0]["faceAttributes"]["smile"];
 }
 
