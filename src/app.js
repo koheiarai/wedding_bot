@@ -117,7 +117,7 @@ const _delegateAi = function(message) {
       res = "奈々さんポーズ！キレキレのダンスポーズを撮影して送ってください！";
       break;
     default:
-      res = { type: 'text', text: `「${event.message.text}」ではなくて画像を送ってください。By新婦` };
+      res = { type: 'text', text: `「${message}」ではなくて画像を送ってください。By新婦` };
       break;
   }
   return res
