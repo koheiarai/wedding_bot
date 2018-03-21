@@ -87,7 +87,9 @@ const _delegateAi = function(message) {
     case "笑顔":
       // res = "One!";
       // res = Math.floor(Math.random() * 100) + " points";
-      res = "笑顔って素敵ですよね！最高の笑顔を撮影して送ってください！";
+      CAMERA.template.title = "笑顔って素敵ですよね！最高の笑顔を撮影して送ってください！";
+      res = CAMERA;
+      // res = "笑顔って素敵ですよね！最高の笑顔を撮影して送ってください！";
       break;
     case "猫顔":
       // res = "Two!";
@@ -115,7 +117,7 @@ const _delegateAi = function(message) {
       res = "奈々さんポーズ！キレキレのダンスポーズを撮影して送ってください！";
       break;
     default:
-      res = `「${message}」ではなくて画像を送ってください。By新婦`;
+      res = { type: 'text', text: `「${event.message.text}」ではなくて画像を送ってください。By新婦` };
       break;
   }
   return res
@@ -153,9 +155,12 @@ function *handleEvent(event) {
   console.log("messageId is:" + event.message.id);
   
   // create a echoing text message
-  const msg = _delegateAi(event.message.text)
+  // const msg = _delegateAi(event.message.text)
+  
+  let echo = _delegateAi(event.message.text)
   // let echo = { type: 'text', text: `「${event.message.text}」ではなくて画像を送ってください。By新婦` };
-  let echo = { type: 'text', text: msg };
+  
+  // let echo = { type: 'text', text: msg };
   
   if (event.message.type === 'image') {
     let image = yield getImage(event.message.id);
@@ -238,7 +243,7 @@ function _request(options) {
     });
 }
 
-const CAMERA = [{
+const CAMERA = {
     "type": "template",
     "altText": "this is a template",
     "template": {
@@ -253,4 +258,4 @@ const CAMERA = [{
             }
         ]
     }
-  }];
+  };
