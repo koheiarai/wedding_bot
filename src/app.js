@@ -188,12 +188,12 @@ function *handleEvent(event) {
   if (event.message.type === 'image') {
     let image = yield getImage(event.message.id);
     let name = yield getUserName(event);
+    image = `data:image/png;base64, ${image.toString('base64')}`;
     const imageUrl = yield uploadImage(image);
     // const event.message.text === "笑顔" ? 
     const score = yield getFaceInfo(imageUrl);
     // const score = Math.floor(Math.random() * 100) + " points";
     // Write a function to retrieve the name & image
-    image = `data:image/png;base64, ${image.toString('base64')}`;
     const newPhoto = {name: name, image: image, score: score};
     // Message ID
 
