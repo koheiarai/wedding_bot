@@ -87,7 +87,8 @@ const _delegateAi = function(message) {
     case "笑顔":
       // res = "One!";
       // res = Math.floor(Math.random() * 100) + " points";
-      CAMERA.template.title = "笑顔って素敵ですよね！最高の笑顔を撮影して送ってください！";
+      CAMERA.template.title = "①　笑顔";
+      CAMERA.template.text = "笑顔って素敵ですよね！\n最高の笑顔を撮影して送ってください！";
       res = CAMERA;
       // res = "笑顔って素敵ですよね！最高の笑顔を撮影して送ってください！";
       break;
