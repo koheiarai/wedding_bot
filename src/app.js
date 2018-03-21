@@ -185,7 +185,8 @@ function *handleEvent(event) {
   if (event.message.type === 'image') {
     let image = yield getImage(event.message.id);
     let name = yield getUserName(event);
-    const score = Math.floor(Math.random() * 100) + " points"
+    // const event.message.text === "笑顔" ? 
+    const score = event.message.text === "笑顔" ? yield getFaceInfo(image): Math.floor(Math.random() * 100) + " points"
 
     // Write a function to retrieve the name & image
     image = `data:image/png;base64, ${image.toString('base64')}`;
@@ -280,3 +281,30 @@ const CAMERA = {
         ]
     }
   };
+  
+  // Get an user name from Line server
+function *getFaceInfo(image) {
+  let options = {
+    "url": "https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect?returnFaceLandmarks=true&returnFaceLandmarks=false&returnFaceAttributes=age,gender,headPose,smile,facialHair,glasses,emotion,hair,makeup,occlusion,accessories,blur,exposure,noise",
+    "method": "POST",
+    "headers": {
+        "Authorization": ""
+    }
+  }
+  const data = {
+      'url': "https://api.line.me/v2/bot/profile/" + user_id,
+      'headers': {
+                  'Ocp-Apim-Subscription-Key': '3a414de09fdd49088ba4414e9641522f'
+      },
+      "json": true
+    };
+  extend(true, options, data);
+
+  const response = yield _request(options); // リクエスト
+  return response[0]["faceAttributes"]["smile"];
+}
+
+  
+
+  
+  
