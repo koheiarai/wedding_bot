@@ -190,6 +190,7 @@ function *handleEvent(event) {
     let name = yield getUserName(event);
     image = `data:image/png;base64, ${image.toString('base64')}`;
     const imageUrl = yield uploadImage(image);
+    console.log("DEBUG imageUrl: " + imageUrl)
     const score = yield getFaceInfo(imageUrl);
     // const score = Math.floor(Math.random() * 100) + " points";
 
@@ -354,6 +355,9 @@ function *uploadImage(base64) {
     // Continue if no error
     // Save data.Location in your database
     console.log('Image successfully uploaded.');
-    return `${userId}.${type}`;
   });
+  
+  // Return image url suffix
+  return `${userId}.${type}`;
+
 }
