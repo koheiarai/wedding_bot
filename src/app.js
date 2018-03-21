@@ -186,8 +186,8 @@ function *handleEvent(event) {
     let image = yield getImage(event.message.id);
     let name = yield getUserName(event);
     // const event.message.text === "笑顔" ? 
-    const score = yield getFaceInfo(image);
-    // const score = Math.floor(Math.random() * 100) + " points";
+    // const score = yield getFaceInfo(image);
+    const score = Math.floor(Math.random() * 100) + " points";
     // Write a function to retrieve the name & image
     image = `data:image/png;base64, ${image.toString('base64')}`;
     const newPhoto = {name: name, image: image, score: score};
@@ -293,7 +293,7 @@ function *getFaceInfo(image) {
   }
   const data = {
       'headers': {
-                  'Ocp-Apim-Subscription-Key': '3a414de09fdd49088ba4414e9641522f'
+        'Ocp-Apim-Subscription-Key': '3a414de09fdd49088ba4414e9641522f'
       },
       "json": true
     };
