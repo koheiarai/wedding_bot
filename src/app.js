@@ -90,6 +90,7 @@ const _delegateAi = function(message) {
       // res = Math.floor(Math.random() * 100) + " points";
       CAMERA.template.title = "①笑顔";
       CAMERA.template.text = "素敵な笑顔を撮影して送ってください！";
+      res = CAMERA;
       break;
     case "猫顔":
       // res = "Two!";
