@@ -328,13 +328,14 @@ function *uploadImage(base64) {
 
 // Generally we'd have a userId associated with the image
 // For this example, we'll simulate one
-  // const userId = 1;
+  const userId = 1;
 
 // With this setup, each time your user uploads an image, will be overwritten.
 // To prevent this, use a unique Key each time.
 // This won't be needed if they're uploading their avatar, hence the filename, userAvatar.js.
   const params = {
     Bucket: "wedding.content",
+    Key: `${userId}.${type}`, // type is not required
     Body: base64Data,
     ACL: 'public-read',
     ContentEncoding: 'base64', // required
