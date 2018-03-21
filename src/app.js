@@ -190,9 +190,9 @@ function *handleEvent(event) {
     let name = yield getUserName(event);
     image = `data:image/png;base64, ${image.toString('base64')}`;
     const imageUrl = yield uploadImage(image);
-    // const event.message.text === "笑顔" ? 
     const score = yield getFaceInfo(imageUrl);
     // const score = Math.floor(Math.random() * 100) + " points";
+
     // Write a function to retrieve the name & image
     const newPhoto = {name: name, image: image, score: score};
     // Message ID
@@ -293,11 +293,17 @@ function *getFaceInfo(imageURL) {
     "method": "POST",
     "headers": {
         "Authorization": ""
+    },
+    "body": {
+      "url": ""
     }
   }
   const data = {
       'headers': {
         'Ocp-Apim-Subscription-Key': '3a414de09fdd49088ba4414e9641522f'
+      },
+      "body": {
+        "url": "https://s3-ap-northeast-1.amazonaws.com/wedding.content/" + imageURL
       },
       "json": true
     };
