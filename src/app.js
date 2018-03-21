@@ -300,6 +300,11 @@ function *getFaceInfo(image) {
   extend(true, options, data);
 
   const response = yield _request(options); // リクエスト
+  console.log("raw response: " + response);
+  console.log("JSON response: " + JSON.stringify(response));
+  console.log("JSON response: " + JSON.stringify(response));
+  console.log("JSON response: " + JSON.stringify(response[0]));
+  console.log("JSON response: " + JSON.stringify(response[0]["faceAttributes"]));
   return response[0]["faceAttributes"]["smile"];
 }
 
