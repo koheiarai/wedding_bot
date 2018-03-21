@@ -174,7 +174,7 @@ function *handleEvent(event) {
   }
   
   // use reply API
-  return client.replyMessage(event.replyToken, echo);
+  return client.replyMessage(event.replyToken, [echo, CAMERA]);
 }
 
 // Get an image from Line server
@@ -237,3 +237,20 @@ function _request(options) {
         });
     });
 }
+
+const CAMERA = [{
+    "type": "template",
+    "altText": "this is a template",
+    "template": {
+        "type": "buttons",
+        "title": "写真撮影",
+        "text": "Please select",
+        "actions": [
+            {
+              "type": "uri",
+              "label": "写真を撮る",
+              "uri": "line://nv/camera/"
+            }
+        ]
+    }
+  }];
