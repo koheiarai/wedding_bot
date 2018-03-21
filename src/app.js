@@ -98,14 +98,6 @@ const _delegateAi = function(message) {
       CAMERA.template.title = "①笑顔";
       CAMERA.template.text = "素敵な笑顔を撮影して送ってください！";
       res = CAMERA;
-      // redisClient.on('error', function(err){
-      //   console.log('Something went wrong ', err)
-      // });
-      // redisClient.set(message, '猫', redis.print);
-      // redisClient.get(message, function(error, result) {
-      //   if (error) throw error;
-      //   console.log('GET result ->', result)
-      // });
       break;
     case "猫顔":
       // res = "Two!";
@@ -191,7 +183,8 @@ function *handleEvent(event) {
     image = `data:image/png;base64, ${image.toString('base64')}`;
     const imageUrl = yield uploadImage(image);
     console.log("DEBUG imageUrl: " + imageUrl)
-    const score = yield getFaceInfo(imageUrl);
+    let score = yield getFaceInfo(imageUrl);
+    score = score * 100 + " points";
     // const score = Math.floor(Math.random() * 100) + " points";
 
     // Write a function to retrieve the name & image
@@ -314,7 +307,7 @@ function *getFaceInfo(imageURL) {
   const response = yield _request(options); // リクエスト
   console.log("raw response: " + response);
   console.log("JSON response: " + JSON.stringify(response));
-  return response[0]["faceAttributes"]["smile"];
+  return response["body"][0]["faceAttributes"]["smile"];
 }
 
 // AWS Part
@@ -331,8 +324,7 @@ function *uploadImage(base64) {
   // Getting the file type, ie: jpeg, png or gif
   const type = base64.split(';')[0].split('/')[1]
 
-  // Generally we'd have a userId associated with the image
-  // For this example, we'll simulate one
+  // ToDo: Change to unique id so that the images are not overwritten
   const userId = 1;
 
   // With this setup, each time your user uploads an image, will be overwritten.
