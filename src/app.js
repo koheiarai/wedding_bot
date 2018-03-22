@@ -24,6 +24,7 @@ const uuid = require('node-uuid');
 const AWS = require('aws-sdk')
 
 // Http request
+console.log("./");
 const _request = require('./lib/http/send-request');
 
 // IP & PORT
