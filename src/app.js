@@ -159,7 +159,7 @@ const client = new line.Client(config);
 // Webhook
 app.post('/webhook', line.middleware(config), wrap(function*(req, res) {
     try {
-        console.log("./");
+        console.log(__dirname);
         yield handleEvent(req["body"]["events"]["0"]);
     } catch (e) {
         console.log(`${e.stack}`)
