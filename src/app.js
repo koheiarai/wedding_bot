@@ -253,18 +253,18 @@ function *getUserName(event) {
 }
 
 // Http request
-function _request(options) {
-    const stack = (new Error().stack);
-    return new Promise((resolve, reject) => {
-        request(options, (error, response, body) => {
-            if (error) {
-                reject(`${stack}\n${error.stack}\noptions: ${JSON.stringify(options)}\nbody: ${JSON.stringify(body)}`);
-                return;
-            }
-            resolve(response); // リスポンスを返す
-        });
-    });
-}
+// function _request(options) {
+//     const stack = (new Error().stack);
+//     return new Promise((resolve, reject) => {
+//         request(options, (error, response, body) => {
+//             if (error) {
+//                 reject(`${stack}\n${error.stack}\noptions: ${JSON.stringify(options)}\nbody: ${JSON.stringify(body)}`);
+//                 return;
+//             }
+//             resolve(response); // リスポンスを返す
+//         });
+//     });
+// }
 
 // Move to another file
 const CAMERA = {
