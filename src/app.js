@@ -25,7 +25,7 @@ const uuid = require('node-uuid');
 const AWS = require('aws-sdk')
 
 // Http request
-const _request = require(__base + 'lib/http/send-request');
+// const _request = require(__base + 'lib/http/send-request');
 
 // IP & PORT
 const PORT = 3000;
@@ -255,18 +255,18 @@ function *getUserName(event) {
 }
 
 // Http request
-// function _request(options) {
-//     const stack = (new Error().stack);
-//     return new Promise((resolve, reject) => {
-//         request(options, (error, response, body) => {
-//             if (error) {
-//                 reject(`${stack}\n${error.stack}\noptions: ${JSON.stringify(options)}\nbody: ${JSON.stringify(body)}`);
-//                 return;
-//             }
-//             resolve(response); // リスポンスを返す
-//         });
-//     });
-// }
+function _request(options) {
+    const stack = (new Error().stack);
+    return new Promise((resolve, reject) => {
+        request(options, (error, response, body) => {
+            if (error) {
+                reject(`${stack}\n${error.stack}\noptions: ${JSON.stringify(options)}\nbody: ${JSON.stringify(body)}`);
+                return;
+            }
+            resolve(response); // リスポンスを返す
+        });
+    });
+}
 
 // Move to another file
 const CAMERA = {
