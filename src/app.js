@@ -25,7 +25,7 @@ const AWS = require('aws-sdk')
 
 // Http request
 console.log("./");
-const _request = require('./lib/http/send-request');
+const _request = require('../lib/http/send-request');
 
 // IP & PORT
 const PORT = 3000;
