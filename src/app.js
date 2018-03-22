@@ -24,8 +24,7 @@ const uuid = require('node-uuid');
 const AWS = require('aws-sdk')
 
 // Http request
-console.log("./");
-const _request = require('../lib/http/send-request');
+// const _request = require('../lib/http/send-request');
 
 // IP & PORT
 const PORT = 3000;
@@ -160,6 +159,7 @@ const client = new line.Client(config);
 // Webhook
 app.post('/webhook', line.middleware(config), wrap(function*(req, res) {
     try {
+        console.log("./");
         yield handleEvent(req["body"]["events"]["0"]);
     } catch (e) {
         console.log(`${e.stack}`)
